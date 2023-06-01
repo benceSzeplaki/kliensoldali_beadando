@@ -1,21 +1,21 @@
 import { Route, Routes } from "react-router-dom";
-import { ApplicationLayout } from "./views/ApplicationLayout.jsx";
-import { Home } from "./views/Home.jsx";
-import { Login } from "./views/Login.jsx";
-import { Register } from "./views/Register.jsx";
-import { Answers} from "./views/Answers.jsx";
-import { Surveys } from "./views/Surveys.jsx";
-import { Profile } from "./views/Profile.jsx";
-import { useAuth } from "./state/AuthProvider.jsx";
+import { ApplicationLayout } from "./views/layout/ApplicationLayout.jsx";
+import Home from "./views/home/Home.jsx";
+import { Login } from "./views/auth/Login.jsx";
+import { Register } from "./views/auth/Register.jsx";
+import { Answers} from "./views/answer/Answers.jsx";
+import { Surveys } from "./views/survey/Surveys.jsx";
+import { Profile } from "./views/profile/Profile.jsx";
+import {store} from "./state/store.js";
 
-function App() {
-  const {accessToken} = useAuth();
+export default function App() {
+  const accessToken = false;
 
   return (
     <>
       <ApplicationLayout>
         <Routes>
-          {accessToken ?
+          { accessToken ?
               (
                   <>
                       <Route path="/surveys" element={ <Surveys/> }></Route>
@@ -37,4 +37,10 @@ function App() {
   )
 }
 
-export default App
+console.log("Initial state: ", store.getState());
+
+const unsubscribe = store.subscribe(() =>
+    console.log("State after dispatch: ", store.getState())
+);
+
+unsubscribe();
